@@ -31,6 +31,8 @@
                             <el-input style="width:300px;" v-model="form.phone"></el-input>
                         </el-form-item>
                     </el-row>
+                    <!-- 老师和学生 -->
+                    <div v-if="roleId != 3">
                     <el-row style="padding:10px 0;">
                         <el-col :span="12">
                             <el-form-item label="邮箱">
@@ -53,6 +55,41 @@
                             <el-input style="width:300px;" v-model="form.projectKey"></el-input>
                         </el-form-item>
                     </el-row>
+                    </div>
+                    <!-- 企业 -->
+                    <div v-if="roleId == 3">
+                     <el-row style="padding:10px 0;">
+                        <el-col :span="12">
+                            <el-form-item label="企业名称">
+                                <el-input style="width:300px;" v-model="enterpriseForm.ename"></el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-form-item label="企业介绍">
+                            <el-input style="width:300px;" v-model="enterpriseForm.introduction"></el-input>
+                        </el-form-item>
+                    </el-row>
+                     <el-row style="padding:10px 0;">
+                        <el-col :span="12">
+                            <el-form-item label="规模">
+                                <el-input style="width:300px;" v-model="enterpriseForm.membernumber"></el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-form-item label="地点">
+                            <el-input style="width:300px;" v-model="enterpriseForm.headquarters"></el-input>
+                        </el-form-item>
+                    </el-row>
+                     <el-row style="padding:10px 0;">
+                        <el-col :span="12">
+                            <el-form-item label="企业官网">
+                                <el-input style="width:300px;" v-model="enterpriseForm.officialWebsite"></el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        
+                    </el-row>
+                    </div>
                     <div style="text-align:center;margin-top:20px;">
                         <el-form-item>
                             <el-button @click="$router.push('/')">返回</el-button>
@@ -84,6 +121,13 @@ export default {
                 projectKey: '',
                 sno: '',
                 userId: ''
+            },
+            enterpriseForm: {
+                introduction: '',
+                headquarters: '',
+                officialWebsite: '',
+                membernumber: '',
+                ename:''
             }
         };
     },
@@ -102,14 +146,30 @@ export default {
             this.form.projectKey = res.data.projectKey;
             this.form.sno = res.data.sno;
             this.form.userId = res.data.userId;
+            if (this.roleId == 3) {
+                this.enterpriseForm.introduction = res.data.introduction;
+                this.enterpriseForm.headquarters = res.data.headquarters;
+                this.enterpriseForm.officialWebsite = res.data.officialWebsite;
+                this.enterpriseForm.membernumber = res.data.membernumber;
+                this.enterpriseForm.ename = res.data.ename;
+            }
             // this.form = res.data;
             // console.log(this.form);
         },
-        async onSubmit() {
-            let student = this.form;
-            console.log(student);
-            await HttpUtil.post('/user/student/studentInfo', { student: student });
+         async onSubmit() {
+            let form = this.form;
+           
+            console.log(form);
+            if (this.roleId == 1) {
+                await HttpUtil.post('user/student/studentInfo', form);
+            } else if (this.roleId == 2) {
+                await HttpUtil.post('user/teacher/studentInfo', form);
+            }else if(this.roleId == 3){
+                 Object.assign(this.form,this.enterpriseForm)
+                await HttpUtil.post('user/enterprise/enterpriseInfo', this.form);
+            }
             this.$message.success('提交成功！');
+            this.$router.push('/');
         }
     },
     mounted() {

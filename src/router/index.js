@@ -25,9 +25,14 @@ export default new Router({
                     meta: { title: '自定义图标' }
                 },
                 {
-                    path: '/college',
+                    path: '/term',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-                    meta: { title: '学校管理' }
+                    meta: { title: '团队信息管理' }
+                },
+                {
+                    path: '/startup',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseStartup.vue'),
+                    meta: { title: '创业项目管理' }
                 },
                 {
                     path: '/student',
@@ -43,6 +48,11 @@ export default new Router({
                     path: '/info',
                     component: () => import(/* webpackChunkName: "form" */ '../components/page/BaseInfo.vue'),
                     meta: { title: '基础设置' }
+                },
+                {
+                    path: '/password',
+                    component: () => import(/* webpackChunkName: "form" */ '../components/page/Password.vue'),
+                    meta: { title: '修改密码' }
                 },
                 {
                     path: '/form',

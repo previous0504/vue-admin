@@ -72,15 +72,20 @@ export default {
                         },
                        
                         {
-                            index: 'change',
+                            index: 'password',
                             title: '修改密码'
                         }
                     ]
                 },
                 {
                     icon: 'el-icon-lx-cascades',
-                    index: 'college',
-                    title: '学校管理'
+                    index: 'term',
+                    title: '团队信息管理'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: 'startup',
+                    title: '创业项目管理'
                 },
                  {
                     icon: 'el-icon-lx-cascades',
