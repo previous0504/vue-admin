@@ -45,6 +45,16 @@ export default new Router({
                     meta: { title: '申请创业项目' }
                 },
                 {
+                    path: '/chat',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseChat.vue'),
+                    meta: { title: '咨询管理' }
+                },
+                {
+                    path: '/chatdetails',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/ChatDetails.vue'),
+                    meta: { title: '咨询详情' }
+                },
+                {
                     path: '/school',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseSchool.vue'),
                     meta: { title: '学校信息管理' }
@@ -67,7 +77,12 @@ export default new Router({
                 {
                     path: '/tabs',
                     component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
-                    meta: { title: 'tab选项卡' }
+                    meta: { title: '审批管理' }
+                },
+                {
+                    path: '/auditdetails',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/AduitDetails.vue'),
+                    meta: { title: '审批详情' }
                 },
                 {
                     path: '/info',

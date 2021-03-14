@@ -101,10 +101,10 @@ export default {
                             title: '申请创业项目'
                         },
                        
-                        {
-                            index: 'startupdetails',
-                            title: '创业项目详情'
-                        }
+                        // {
+                        //     index: 'startupdetails',
+                        //     title: '创业项目详情'
+                        // }
                     ]
                 },
                  {
@@ -115,7 +115,12 @@ export default {
                 {
                     icon: 'el-icon-lx-copy',
                     index: 'tabs',
-                    title: 'tab选项卡'
+                    title: '审批管理'
+                },
+                {
+                    icon: 'el-icon-lx-copy',
+                    index: 'chat',
+                    title: '咨询管理'
                 },
                 {
                     icon: 'el-icon-lx-calendar',

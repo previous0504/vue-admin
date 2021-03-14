@@ -58,23 +58,19 @@
                         </el-col>
                     </el-row>
                     <!--审核意见 -->
-                    <div v-if="form.itemStatus != 1">
-                        <div style="margin-top:30px;" v-for="(item) in dataList" :key="item.id">
-                            <div>审核意见</div>
-                            <div style="margin-top:10px;">
-                                <el-input v-model="item.reviewOption" type="textarea" :rows="4" placeholder="请输入审批意见"></el-input>
-                            </div>
-                            <div style="margin-top:20px;">
-                                <div>评分</div>
-                                <el-input style="width:400px;" v-model="item.reviewScore"></el-input>
-                            </div>
-                        </div>
+                    <div>审核意见</div>
+                    <div style="margin-top:10px;">
+                        <el-input v-model="form.reviewOption" type="textarea" :rows="4" placeholder="请输入审批意见"></el-input>
+                    </div>
+                    <div style="margin-top:20px;">
+                        <div>评分</div>
+                        <el-input style="width:400px;" v-model="form.reviewScore"></el-input>
                     </div>
 
                     <div style="text-align:center;margin-top:20px;">
                         <el-form-item>
                             <el-button @click="$router.push('/startup')">返回</el-button>
-                            <!-- <el-button type="primary" @click="onSubmit">确认通过</el-button> -->
+                            <el-button type="primary" @click="onSubmit">确认通过</el-button>
                         </el-form-item>
                     </div>
                 </el-form>
@@ -89,40 +85,35 @@ export default {
     name: 'baseform',
     data() {
         return {
-            roleId: JSON.parse(localStorage.getItem('ms_username')).role,
+             roleId: JSON.parse(localStorage.getItem('ms_username')).role,
+            userId: JSON.parse(localStorage.getItem('ms_username')).id,
             form: {
+                role:'',
                 reviewScore: '',
-                reviewOption: ''
-            },
-            dataList:[]
+                reviewOption: '',
+                userNum:''
+            }
         };
     },
     mounted() {
         let o = this.$route.query.obj;
         this.form = Object.assign({}, JSON.parse(o));
-        this.fetchData();
-        console.log(this.form);
-        
-    },
-    watch: {
-        $route: {
-            handler() {
-                let o = this.$route.query.obj;
-                if (o) {
-                    this.form = Object.assign({}, JSON.parse(o));
-                    this.fetchData();
-                }
-
-            },
-            deep: true
-        }
+        this.fetchUserInfo();
     },
     methods: {
-        async fetchData(){
-            let res= await HttpUtil.get(`project/review/oneItemReview?itemNum=${this.form.itemNum}`)
-            console.log(res);
-            this.dataList = res.data;
+        async onSubmit() {
+            this.form.roleId = this.roleId;
+            this.form.reviewScore = Number(this.form.reviewScore);
+            let res = await HttpUtil.post('project/review/addReview', this.form);
+            if (res) {
+                this.$message.success('确认审批！');
+                this.$router.push('/tabs');
+            }
         },
+        async fetchUserInfo() {
+            let res = await HttpUtil.get(`user/userinfo?userId=${this.userId}&rId=${this.roleId}`);
+            this.form.userNum = res.data.sno;
+        }
     }
 };
 </script>

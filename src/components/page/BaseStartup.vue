@@ -32,13 +32,18 @@
                 <el-table-column label="企业名称">
                     <template slot-scope="scope">{{ scope.row.enterpriseName }}</template>
                 </el-table-column>
+                <el-table-column label="审批状态">
+                    <template slot-scope="scope">{{
+                        scope.row.itemStatus == 1 ? '待审批' : scope.row.itemStatus == 2 ? '教师审批通过' : '企业审批通过'
+                    }}</template>
+                </el-table-column>
+
                 <el-table-column label="创建时间">
                     <template slot-scope="scope">{{ scope.row.createTime }}</template>
                 </el-table-column>
                 <el-table-column label="操作" width="150" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" @click="handleCheck(scope.row.id)">查看</el-button>
-                       
+                        <el-button type="text" @click="handleCheck(scope.row)">查看</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -83,11 +88,11 @@ export default {
         };
     },
     mounted() {
-        this.fetchData();
         this.fetchUserInfo();
+        this.fetchData();
     },
     methods: {
-        // 获取学生列表数据
+        // 获取审批列表
         async fetchData() {
             let res = await HttpUtil.get(`project/item/itemPage?pageSize=${this.query.pageSize}&pageNumber=${this.query.pageNumber}`);
             this.tableData = res.data.records;
@@ -102,8 +107,7 @@ export default {
             this.sno = res.data.sno;
         },
         applyItem() {
-            this.$router.push('/')
-           
+            this.$router.push('/applystartup');
         },
         // 多选操作
         handleSelectionChange(val) {
@@ -114,8 +118,13 @@ export default {
             this.$set(this.query, 'pageNumber', val);
             this.fetchData();
         },
-         handleCheck(id ) {
-           console.log(id);
+        handleCheck(row) {
+            this.$router.push({
+                path: '/startupdetails',
+                query: {
+                    obj: JSON.stringify(row)
+                }
+            });
         }
     }
 };

@@ -192,8 +192,9 @@ export default {
             this.formInfo.itemNum = this.form.itemNum;
             let res1 = await HttpUtil.post('project/item/itemInfo',this.form);
             let res2 = await HttpUtil.post('project/details/itemInfo',this.formInfo)
-            // this.$message.success('提交成功！');
-            // this.$router.push('/');
+
+            this.$message.success('提交成功！');
+            this.$router.push('/startup');
         }
     },
     mounted() {
