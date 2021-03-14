@@ -84,8 +84,28 @@ export default {
                 },
                 {
                     icon: 'el-icon-lx-cascades',
-                    index: 'startup',
-                    title: '创业项目管理'
+                    index: 'school',
+                    title: '学校管理'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '2',
+                    title: '创业项目管理',
+                    subs: [
+                        {
+                            index: 'startup',
+                            title: '创业项目列表'
+                        },
+                        {
+                            index: 'applystartup',
+                            title: '申请创业项目'
+                        },
+                       
+                        {
+                            index: 'startupdetails',
+                            title: '创业项目详情'
+                        }
+                    ]
                 },
                  {
                     icon: 'el-icon-lx-cascades',

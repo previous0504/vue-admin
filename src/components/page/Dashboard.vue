@@ -67,12 +67,12 @@
                 <el-card shadow="hover" style="height:403px;">
                     <div slot="header" class="clearfix">
                         <span>学校通知</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" @click="$router.push('/inform')">添加</el-button>
                     </div>
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column>
                             <template slot-scope="scope">
-                                <div>{{ scope.row.head }}</div>
+                                <div @click="handleDetails(scope.row.id)">{{ scope.row.head }}</div>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -92,12 +92,12 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
+                    <!-- <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart> -->
                 </el-card>
             </el-col>
             <el-col :span="12">
                 <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
+                    <!-- <schart ref="line" class="schart" canvasId="line" :options="options2"></schart> -->
                 </el-card>
             </el-col>
         </el-row>
@@ -117,17 +117,10 @@ export default {
                 pageNumber: 1,
                 pageSize: 6
             },
-            pageTotal:0,
+            pageTotal: 0,
             name: '',
             role: '',
-            todoList: [
-                // {
-                //     head: '今天要修复100个bug'
-                // },
-                // {
-                //     head: '今天要修复100个bug'
-                // }
-            ],
+            todoList: [],
             data: [
                 {
                     name: '2018/09/04',
@@ -191,7 +184,7 @@ export default {
             let res = await HttpUtil.get(`project/inform/informPage?pageSize=${this.query.pageSize}&pageNumber=${this.query.pageNumber}`);
             console.log(res);
             this.todoList = res.data.records;
-              this.query.pageNumber = res.data.current;
+            this.query.pageNumber = res.data.current;
             this.query.pageSize = res.data.size;
             this.pageTotal = res.data.total;
             // this.todoList[0].title = res;
@@ -203,6 +196,14 @@ export default {
             this.$set(this.query, 'pageNumber', val);
             this.getInform();
         },
+        handleDetails(id) {
+            this.$router.push({
+                path: '/informdetails',
+                query: {
+                    id: id
+                }
+            });
+        }
     },
     mounted() {
         this.getInform();

@@ -35,9 +35,34 @@ export default new Router({
                     meta: { title: '创业项目管理' }
                 },
                 {
+                    path: '/startupdetails',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/StartupDetails.vue'),
+                    meta: { title: '创业项目详情' }
+                },
+                {
+                    path: '/applystartup',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/NewStartup.vue'),
+                    meta: { title: '申请创业项目' }
+                },
+                {
+                    path: '/school',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseSchool.vue'),
+                    meta: { title: '学校信息管理' }
+                },
+                {
                     path: '/student',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseStudent.vue'),
                     meta: { title: '学生管理' }
+                },
+                {
+                    path: '/informdetails',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/InformDetails.vue'),
+                    meta: { title: '学校通知详情' }
+                },
+                {
+                    path: '/inform',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseInform.vue'),
+                    meta: { title: '添加学校通知' }
                 },
                 {
                     path: '/tabs',

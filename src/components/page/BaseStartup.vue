@@ -7,7 +7,7 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-button type="primary" @click="createTerm">创建团队</el-button>
+                <el-button type="primary" @click="applyItem">申请创业项目</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -35,10 +35,10 @@
                 <el-table-column label="创建时间">
                     <template slot-scope="scope">{{ scope.row.createTime }}</template>
                 </el-table-column>
-                <el-table-column label="操作" width="180" align="center">
+                <el-table-column label="操作" width="150" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" icon="el-icon-edit" @click="handleAdd(scope.row.id)">加入</el-button>
-                        <el-button type="text" icon="el-icon-delete" class="red" @click="handleLevel(scope.row.id)">离开</el-button>
+                        <el-button type="text" @click="handleCheck(scope.row.id)">查看</el-button>
+                       
                     </template>
                 </el-table-column>
             </el-table>
@@ -53,20 +53,6 @@
                 ></el-pagination>
             </div>
         </div>
-        <el-dialog title="创建团队" :visible.sync="isVisible">
-            <el-form :model="form">
-                <el-form-item label="团队名称" :label-width="120">
-                    <el-input v-model="form.teamName" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="团队介绍" :label-width="120">
-                    <el-input v-model="form.teamIntroduce" autocomplete="off"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="isVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleConfirm">确 定</el-button>
-            </div>
-        </el-dialog>
     </div>
 </template>
 
@@ -115,50 +101,10 @@ export default {
             let res = await HttpUtil.get(`user/userinfo?userId=${this.userId}&rId=${this.roleId}`);
             this.sno = res.data.sno;
         },
-        createTerm() {
-            this.isVisible = true;
+        applyItem() {
+            this.$router.push('/')
+           
         },
-        handleAdd(id) {
-            this.$confirm('是否加入团队?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            })
-                .then(async () => {
-                    let res = await HttpUtil.post('user/team/joinTeam', {
-                        teamId: id,
-                        sno: this.sno
-                    });
-                    if (res) {
-                        this.$message({
-                            type: 'success',
-                            message: '加入团队成功!'
-                        });
-                    }
-                })
-                .catch(() => {});
-        },
-        handleLevel(id) {
-            this.$confirm('是否离开团队?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            })
-                .then(async () => {
-                    let res = await HttpUtil.post('user/team/leaveTeam', {
-                        // teamId:id,
-                        sno: this.sno
-                    });
-                    if (res) {
-                        this.$message({
-                            type: 'success',
-                            message: '离开团队成功!'
-                        });
-                    }
-                })
-                .catch(() => {});
-        },
-
         // 多选操作
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -168,15 +114,8 @@ export default {
             this.$set(this.query, 'pageNumber', val);
             this.fetchData();
         },
-        async handleConfirm() {
-            let res = await HttpUtil.post('user/team/createTeam', {
-                teamName: this.form.teamName,
-                teamIntroduce: this.form.teamIntroduce
-            });
-            if (res) {
-                this.$message.success('创建团队成功！');
-                this.isVisible = false;
-            }
+         handleCheck(id ) {
+           console.log(id);
         }
     }
 };
